@@ -66,7 +66,7 @@ const mapfatching: React.FC = () => {
   const [selectedEmailItem, setSelectedEmailItem] = React.useState<number | null>(null)
 
 
-  const markerHighlight = (contentIdValue: number) =>{
+  const markerHighlight = (contentIdValue: number) => {
     if (!!contentIdValue || contentIdValue === 0 || contentIdValue !== undefined) {
       console.log("test handleClickOpen", contentIdValue)
       setContentId(contentIdValue)
@@ -226,7 +226,7 @@ const mapfatching: React.FC = () => {
           <Typography variant="h5" gutterBottom className={style.title}>
             <MedicalInformationIcon />
             Find Pharmacy
-            <Link 
+            <Link
               href={"/"}
               className={style.back}
               style={{
@@ -234,7 +234,7 @@ const mapfatching: React.FC = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 textDecoration: "none",
-                
+
               }}
             >
               <ArrowBackIosIcon />
@@ -252,7 +252,7 @@ const mapfatching: React.FC = () => {
                       variant="body2"
                       gutterBottom
                       className={style.prescriptionid}
-  
+
                     >
                       {slug}
                     </Typography>
@@ -260,7 +260,7 @@ const mapfatching: React.FC = () => {
                   <Box className={style.view}>
                     <Button
                       variant="outlined"
-                      // onClick={() => handleClickOpen(item.id)}
+                    // onClick={() => handleClickOpen(item.id)}
                     >
                       View
                     </Button>
@@ -278,21 +278,84 @@ const mapfatching: React.FC = () => {
                   />
                 </Box>
                 <Box>
-                  <center>
+                  <center style={{ color: "#2EA16E" }}>
                     <h2>Total Pharmacy Found: {fetchpharmacylists?.count}</h2>
                   </center>
-                  <Button onClick={()=>setContentId(-1)}>ReSet</Button>
-                  <Box sx={{ border: "2px solid blue",
-                  borderRadius:"5px", height: "300px", overflow: "auto", backgroundColor: "#66C7EF"}}>
-                    {contentId=== -1 ? fetchpharmacylists?.docs?.map(
+                  <Button onClick={() => setContentId(-1)} sx={{background:"#2EA16E", color:"white", marginBottom:"10px"}}>ReSet</Button>
+                  <Box sx={{
+                    border: "2px solid blue",
+                    borderRadius: "5px", height: "400px", overflow: "auto", backgroundColor: "#66C7EF"
+                  }}>
+                    {contentId === -1 ? fetchpharmacylists?.docs?.map(
                       (item: PharmacyListsInterface, key: number) => {
-                        
-                          return (
-                              
-                            <Card
-                              sx={{ border: selectedEmailItem === key?"2px solid red":"2px solid black", width: "90%", margin: "10px 10px", padding: "20px", background: "#ffecb3",
-                       
+
+                        return (
+
+                          <Card
+                            sx={{
+                              border: selectedEmailItem === key ? "2px solid red" : "2px solid black", width: "90%", margin: "10px 10px", padding: "20px", background: "#ffecb3",
+
                             }}
+                            key={key}
+                          >
+                            <Box>
+                              <img
+                                src={
+                                  item?.branch_logo ||
+                                  "https://w7.pngwing.com/pngs/791/121/png-transparent-health-care-medicine-physician-patient-contract-research-organization-infirm-text-hospital-surgery.png"
+                                }
+                                alt="UseerImage"
+                                style={{ width: "30px", height: "40px", borderRadius: "50%" }}
+                              />
+                              <Box>
+                                <Typography
+                                  variant="h6"
+                                  gutterBottom
+                                  style={{ fontFamily: "Times", fontSize: "30px", color: "blue" }}
+                                >
+                                  {item?.name}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  gutterBottom
+
+                                  style={{ fontFamily: "Times", fontSize: "20px" }}
+                                >
+                                  {item?.address}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  gutterBottom
+
+                                  style={{ fontFamily: "Times", fontSize: "20px" }}
+                                >
+                                  {item?.city}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  gutterBottom>
+                                  {item?.dispensingFee}
+                                </Typography>
+                              </Box>
+                            </Box>
+                            <Button variant="contained" sx={{ color: "red", background: "#81D6C8" }} onClick={() => handleClickOpen(key)}>
+                              Branch Details
+                            </Button>
+
+                          </Card>
+
+
+                        )
+                      }) :
+                      fetchpharmacylists?.docs?.map((item: PharmacyListsInterface, key: number) => {
+                        if (key === contentId) {
+                          return (
+
+                            <Card
+                              sx={{
+                                border: selectedEmailItem === key ? "2px solid red" : "2px solid black", width: "90%", margin: "10px 10px", padding: "20px", background: "#ffecb3",
+
+                              }}
                               key={key}
                             >
                               <Box>
@@ -315,7 +378,7 @@ const mapfatching: React.FC = () => {
                                   <Typography
                                     variant="body2"
                                     gutterBottom
-  
+
                                     style={{ fontFamily: "Times" }}
                                   >
                                     {item?.address}
@@ -323,7 +386,7 @@ const mapfatching: React.FC = () => {
                                   <Typography
                                     variant="body2"
                                     gutterBottom
-  
+
                                     style={{ fontFamily: "Times" }}
                                   >
                                     {item?.city}
@@ -338,73 +401,14 @@ const mapfatching: React.FC = () => {
                               <Button variant="contained" onClick={() => handleClickOpen(key)}>
                                 Branch Details
                               </Button>
-  
+
                             </Card>
-                          
-  
-                        )
-                      }):
-                      fetchpharmacylists?.docs?.map((item : PharmacyListsInterface, key : number) => {
-                        if(key === contentId){
-                          return (
-                              
-                            <Card
-                              sx={{ border: selectedEmailItem === key?"2px solid red":"2px solid black", width: "90%", margin: "10px 10px", padding: "20px", background: "#ffecb3",
-                       
-                            }}
-                              key={key}
-                            >
-                              <Box>
-                                <img
-                                  src={
-                                    item?.branch_logo ||
-                                    "https://w7.pngwing.com/pngs/791/121/png-transparent-health-care-medicine-physician-patient-contract-research-organization-infirm-text-hospital-surgery.png"
-                                  }
-                                  alt="UseerImage"
-                                  style={{ width: "30px", height: "40px", borderRadius: "50%" }}
-                                />
-                                <Box>
-                                  <Typography
-                                    variant="h6"
-                                    gutterBottom
-                                    style={{ fontFamily: "Times" }}
-                                  >
-                                    {item?.name}
-                                  </Typography>
-                                  <Typography
-                                    variant="body2"
-                                    gutterBottom
-  
-                                    style={{ fontFamily: "Times" }}
-                                  >
-                                    {item?.address}
-                                  </Typography>
-                                  <Typography
-                                    variant="body2"
-                                    gutterBottom
-  
-                                    style={{ fontFamily: "Times" }}
-                                  >
-                                    {item?.city}
-                                  </Typography>
-                                  <Typography
-                                    variant="body2"
-                                    gutterBottom>
-                                    {item?.dispensingFee}
-                                  </Typography>
-                                </Box>
-                              </Box>
-                              <Button variant="contained" onClick={() => handleClickOpen(key)}>
-                                Branch Details
-                              </Button>
-  
-                            </Card>
-                          
-  
-                        )
-                        } 
-                      }) 
-                      }
+
+
+                          )
+                        }
+                      })
+                    }
 
                     <Dialog open={open} onClose={handleClose}>
 
@@ -423,9 +427,9 @@ const mapfatching: React.FC = () => {
                 <MapContainer
                   id="fullmap"
                   style={{
-                    border:"2px solid blue",
-                    borderRadius:"20px",
-                    height: "520px",
+                    border: "2px solid blue",
+                    borderRadius: "20px",
+                    height: "620px",
                     width: "100%",
                     float: "right",
                     marginTop: "0px",
@@ -456,7 +460,7 @@ const mapfatching: React.FC = () => {
                             <Typography>Phone: {item?.phone}</Typography>
                             <Typography>Address: {item?.address}</Typography>
                             <Typography>Status: {item?.status}</Typography>
-                            
+
                             Latitute:{item?.latitude}, Longditute:
                             {item?.longitude}
 

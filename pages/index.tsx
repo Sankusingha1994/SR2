@@ -97,7 +97,7 @@ export default function Home() {
                 alt="Picture of the author"
                 style={{ marginTop: "10px" }}
               /> */}
-              <Typography variant="h5" gutterBottom className="phead">
+              <Typography variant="h5" gutterBottom sx={{color:"#149ECD"}}>
                 Enter Precription Id
               </Typography>
               <Box>
@@ -112,7 +112,7 @@ export default function Home() {
                       Loading... 
                     </Button></>
                   ) : (
-                    <><Button sx={{marginTop:"20px"}} type="submit" variant="contained" size="small" >
+                    <><Button sx={{marginTop:"20px", background:"#7965CE"}} type="submit" variant="contained" size="small" >
                       Submit
                     </Button></>
                   )
@@ -134,10 +134,10 @@ export default function Home() {
                 alt="Picture of the author"
                 style={{ marginTop: "10px" }}
               /> */}
-              <Typography variant="h5">
+              <Typography variant="h5" sx={{color:"#149ECD"}}>
                 Hi, Test Patient 👋
               </Typography>
-              <Typography variant="body2">
+              <Typography variant="body2" sx={{color:"#086686"}}>
                 Please confirm your date of birth to continue
               </Typography>
               <Box>
@@ -153,7 +153,7 @@ export default function Home() {
                       Loading... 
                     </Button></>
                   ) : (
-                    <><Button sx={{marginTop:"20px"}} type="submit" variant="contained" size="large">
+                    <><Button sx={{marginTop:"20px",background:"#7965CE"}} type="submit" variant="contained" size="large">
                       Enter DoB
                     </Button></>
                   )
