@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
+import style from "../../styles/mapfatching.module.css"
 // import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // import DeleteIcon from '@mui/icons-material/Delete';
 import {
@@ -62,14 +63,22 @@ const mapfatching: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const [contentId, setContentId] = React.useState(-1)
   // const [map, setMap]=React.useState(-1)
+  const [selectedEmailItem, setSelectedEmailItem] = React.useState<number | null>(null)
 
 
-
-
-  const handleClickOpen = (contentIdValue?: number) => {
-    if (!!contentIdValue || contentIdValue === 0) {
+  const markerHighlight = (contentIdValue: number) =>{
+    if (!!contentIdValue || contentIdValue === 0 || contentIdValue !== undefined) {
       console.log("test handleClickOpen", contentIdValue)
       setContentId(contentIdValue)
+      setSelectedEmailItem(contentIdValue || null)
+    }
+  }
+
+  const handleClickOpen = (contentIdValue: number) => {
+    if (!!contentIdValue || contentIdValue === 0 || contentIdValue !== undefined) {
+      console.log("test handleClickOpen", contentIdValue)
+      setContentId(contentIdValue)
+      setSelectedEmailItem(contentIdValue || null)
     }
 
     setOpen(true);
@@ -173,7 +182,7 @@ const mapfatching: React.FC = () => {
 
       return (
         <React.Fragment key={contentId}>
-          <DialogTitle>{fetchpharmacylists?.docs[contentId].name}</DialogTitle>
+          <DialogTitle>{fetchpharmacylists?.docs[contentId]?.name}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               <img src={fetchpharmacylists?.docs?.[contentId]?.branch_logo
@@ -213,18 +222,19 @@ const mapfatching: React.FC = () => {
   return (
     <>
       <>
-        <Box>
-          <Typography variant="h5" gutterBottom>
+        <Box className={style.body}>
+          <Typography variant="h5" gutterBottom className={style.title}>
             <MedicalInformationIcon />
             Find Pharmacy
-            <Link
+            <Link 
               href={"/"}
+              className={style.back}
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 textDecoration: "none",
-                color: "#60b6fb",
+                
               }}
             >
               <ArrowBackIosIcon />
@@ -241,16 +251,16 @@ const mapfatching: React.FC = () => {
                     <Typography
                       variant="body2"
                       gutterBottom
-                      className="presciddesign"
-                      style={{ fontFamily: "Times" }}
+                      className={style.prescriptionid}
+  
                     >
                       {slug}
                     </Typography>
                   </Box>
-                  <Box>
+                  <Box className={style.view}>
                     <Button
                       variant="outlined"
-                      onClick={() => handleClickOpen()}
+                      // onClick={() => handleClickOpen(item.id)}
                     >
                       View
                     </Button>
@@ -271,62 +281,131 @@ const mapfatching: React.FC = () => {
                   <center>
                     <h2>Total Pharmacy Found: {fetchpharmacylists?.count}</h2>
                   </center>
-                  <Box sx={{ border: "12px solid blue", height: "300px", overflow: "auto", backgroundColor: "#66C7EF" }}>
-                    {fetchpharmacylists?.docs?.map(
-                      (item: PharmacyListsInterface, key: number) => (
-                        <>
-                          <Card
-                            sx={{ border: "2px solid red", width: "90%", margin: "10px 10px", padding: "20px" }}
-                            key={key}
-                          >
-
-                            <Box>
-                              <img
-                                src={
-                                  item?.branch_logo ||
-                                  "https://w7.pngwing.com/pngs/791/121/png-transparent-health-care-medicine-physician-patient-contract-research-organization-infirm-text-hospital-surgery.png"
-                                }
-                                alt="UseerImage"
-                                style={{ width: "30px", height: "40px", borderRadius: "50%" }}
-                              />
+                  <Button onClick={()=>setContentId(-1)}>ReSet</Button>
+                  <Box sx={{ border: "2px solid blue",
+                  borderRadius:"5px", height: "300px", overflow: "auto", backgroundColor: "#66C7EF"}}>
+                    {contentId=== -1 ? fetchpharmacylists?.docs?.map(
+                      (item: PharmacyListsInterface, key: number) => {
+                        
+                          return (
+                              
+                            <Card
+                              sx={{ border: selectedEmailItem === key?"2px solid red":"2px solid black", width: "90%", margin: "10px 10px", padding: "20px", background: "#ffecb3",
+                       
+                            }}
+                              key={key}
+                            >
                               <Box>
-                                <Typography
-                                  variant="h6"
-                                  gutterBottom
-                                  style={{ fontFamily: "Times" }}
-                                >
-                                  {item?.name}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  gutterBottom
-
-                                  style={{ fontFamily: "Times" }}
-                                >
-                                  {item?.address}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  gutterBottom
-
-                                  style={{ fontFamily: "Times" }}
-                                >
-                                  {item?.city}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  gutterBottom>
-                                  {item?.dispensingFee}
-                                </Typography>
+                                <img
+                                  src={
+                                    item?.branch_logo ||
+                                    "https://w7.pngwing.com/pngs/791/121/png-transparent-health-care-medicine-physician-patient-contract-research-organization-infirm-text-hospital-surgery.png"
+                                  }
+                                  alt="UseerImage"
+                                  style={{ width: "30px", height: "40px", borderRadius: "50%" }}
+                                />
+                                <Box>
+                                  <Typography
+                                    variant="h6"
+                                    gutterBottom
+                                    style={{ fontFamily: "Times" }}
+                                  >
+                                    {item?.name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    gutterBottom
+  
+                                    style={{ fontFamily: "Times" }}
+                                  >
+                                    {item?.address}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    gutterBottom
+  
+                                    style={{ fontFamily: "Times" }}
+                                  >
+                                    {item?.city}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    gutterBottom>
+                                    {item?.dispensingFee}
+                                  </Typography>
+                                </Box>
                               </Box>
-                            </Box>
-                            <Button variant="contained" onClick={() => handleClickOpen(key)}>
-                              Branch Details
-                            </Button>
-                          </Card>
+                              <Button variant="contained" onClick={() => handleClickOpen(key)}>
+                                Branch Details
+                              </Button>
+  
+                            </Card>
+                          
+  
+                        )
+                      }):
+                      fetchpharmacylists?.docs?.map((item : PharmacyListsInterface, key : number) => {
+                        if(key === contentId){
+                          return (
+                              
+                            <Card
+                              sx={{ border: selectedEmailItem === key?"2px solid red":"2px solid black", width: "90%", margin: "10px 10px", padding: "20px", background: "#ffecb3",
+                       
+                            }}
+                              key={key}
+                            >
+                              <Box>
+                                <img
+                                  src={
+                                    item?.branch_logo ||
+                                    "https://w7.pngwing.com/pngs/791/121/png-transparent-health-care-medicine-physician-patient-contract-research-organization-infirm-text-hospital-surgery.png"
+                                  }
+                                  alt="UseerImage"
+                                  style={{ width: "30px", height: "40px", borderRadius: "50%" }}
+                                />
+                                <Box>
+                                  <Typography
+                                    variant="h6"
+                                    gutterBottom
+                                    style={{ fontFamily: "Times" }}
+                                  >
+                                    {item?.name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    gutterBottom
+  
+                                    style={{ fontFamily: "Times" }}
+                                  >
+                                    {item?.address}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    gutterBottom
+  
+                                    style={{ fontFamily: "Times" }}
+                                  >
+                                    {item?.city}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    gutterBottom>
+                                    {item?.dispensingFee}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                              <Button variant="contained" onClick={() => handleClickOpen(key)}>
+                                Branch Details
+                              </Button>
+  
+                            </Card>
+                          
+  
+                        )
+                        } 
+                      }) 
+                      }
 
-                        </>)
-                    )}
                     <Dialog open={open} onClose={handleClose}>
 
 
@@ -344,7 +423,9 @@ const mapfatching: React.FC = () => {
                 <MapContainer
                   id="fullmap"
                   style={{
-                    height: "500px",
+                    border:"2px solid blue",
+                    borderRadius:"20px",
+                    height: "520px",
                     width: "100%",
                     float: "right",
                     marginTop: "0px",
@@ -365,9 +446,9 @@ const mapfatching: React.FC = () => {
                           key={mapkey}
                           position={[item?.latitude, item?.longitude]}
                           icon={myIcon}
-                        // eventHandlers={{
-                        //   click: () => handleClickOpen(mapkey),
-                        // }}
+                          eventHandlers={{
+                            click: () => markerHighlight(mapkey),
+                          }}
                         >
 
                           <Popup>
@@ -375,26 +456,7 @@ const mapfatching: React.FC = () => {
                             <Typography>Phone: {item?.phone}</Typography>
                             <Typography>Address: {item?.address}</Typography>
                             <Typography>Status: {item?.status}</Typography>
-                            {
-                              fetchpharmacylists?.docs?.pharmacyBranchWorkingDay?.map((item: any) => {
-
-                                return <>
-                                  <Typography>Day : {item?.dayOfWeek} </Typography>
-                                  {
-                                    item?.pharmacyBranchWorkingHour?.map((hour: any) => {
-                                      console.log(hour);
-                                      
-                                      return (
-                                        <>
-                                          <Typography>Time: from {hour?.openAt}  to {hour?.closeAt}</Typography>
-                                        </>
-                                      )
-                                    })
-                                  }
-
-                                </>
-                              })
-                            }
+                            
                             Latitute:{item?.latitude}, Longditute:
                             {item?.longitude}
 

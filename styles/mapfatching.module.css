@@ -1,0 +1,24 @@
+.body{
+    background-color: chartreuse;
+}
+.title{
+    margin: 10px auto;
+    color: blueviolet;
+    text-align: center;
+}
+.back{
+    color: blue;
+}
+.prescriptionid{
+    padding: 10px;
+    font-family: "Times";
+    color: chocolate;
+    font-size:20px;
+    float: left;
+}
+.view{
+    padding: 10px;
+    color: chocolate;
+    font-size:20px;
+    float: right;
+}
